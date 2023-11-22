@@ -2,7 +2,7 @@ const {WallType} = require("../models/models");
 
 class WallTypeRepository {
     async create(name, color, attentuation1, attentuation2, attentuation3, thickness, siteId) {
-        return await WallType.create({
+        const wallType = await WallType.create({
             name: name,
             color: color,
             attentuation1: attentuation1,
@@ -11,18 +11,21 @@ class WallTypeRepository {
             thickness: thickness,
             siteId: siteId
         })
+        return wallType.get()
     }
 
     async get(wallTypeId) {
-        return await WallType.findOne({where: {id: wallId}})
+        const wallType = await WallType.findOne({where: {id: wallTypeId}})
+        return wallType.get()
     }
 
     async getAll(siteId) {
-        return await WallType.findAndCountAll({where: {siteId: siteId}})
+        const wallTypes = await WallType.findAll({where: {siteId: siteId}})
+        return wallTypes.map((row) => row.get())
     }
 
     async update(name, color, attentuation1, attentuation2, attentuation3, thickness, wallTypeId) {
-        return await WallType.update({
+        const wallType = await WallType.update({
             name: name,
             color: color,
             attentuation1: attentuation1,
@@ -30,6 +33,7 @@ class WallTypeRepository {
             attentuation3: attentuation3,
             thickness: thickness
         }, {where: {id: wallTypeId}})
+        return wallType.get()
     }
 
     async delete(wallTypeId) {

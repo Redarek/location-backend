@@ -27,7 +27,7 @@ const RefreshToken = sequelize.define('refresh_token', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}, token: {type: DataTypes.STRING(1500)}
 })
 
-User.hasMany(RefreshToken)
+User.hasMany(RefreshToken, { onDelete: 'CASCADE' })
 RefreshToken.belongsTo(User)
 
 const Site = sequelize.define('site', {
@@ -37,7 +37,7 @@ const Site = sequelize.define('site', {
     deletedAt: {type: DataTypes.DATE}
 })
 
-User.hasMany(Site)
+User.hasMany(Site, { onDelete: 'CASCADE' })
 Site.belongsTo(User)
 
 const Building = sequelize.define('building', {
@@ -50,7 +50,7 @@ const Building = sequelize.define('building', {
     deletedAt: {type: DataTypes.DATE}
 })
 
-Site.hasMany(Building)
+Site.hasMany(Building, { onDelete: 'CASCADE' })
 Building.belongsTo(Site)
 
 const Floor = sequelize.define('floor', {
@@ -62,7 +62,7 @@ const Floor = sequelize.define('floor', {
     deletedAt: {type: DataTypes.DATE}
 })
 
-Building.hasMany(Floor)
+Building.hasMany(Floor, { onDelete: 'CASCADE' })
 Floor.belongsTo(Building)
 
 const AccessPoint = sequelize.define('access_point', {
@@ -74,7 +74,7 @@ const AccessPoint = sequelize.define('access_point', {
     deletedAt: {type: DataTypes.DATE}
 })
 
-Floor.hasMany(AccessPoint)
+Floor.hasMany(AccessPoint, { onDelete: 'CASCADE' })
 AccessPoint.belongsTo(Floor)
 
 const Sensor = sequelize.define('sensor', {
@@ -85,7 +85,7 @@ const Sensor = sequelize.define('sensor', {
     deletedAt: {type: DataTypes.DATE}
 })
 
-Floor.hasMany(Sensor)
+Floor.hasMany(Sensor, { onDelete: 'CASCADE' })
 Sensor.belongsTo(Floor)
 
 const RadiationPattern = sequelize.define('radiation_pattern', {
@@ -107,7 +107,7 @@ const Wall = sequelize.define('wall', {
     deletedAt: {type: DataTypes.DATE}
 })
 
-Floor.hasMany(Wall)
+Floor.hasMany(Wall, { onDelete: 'CASCADE' })
 Wall.belongsTo(Floor)
 
 const WallType = sequelize.define('wall_type', {
@@ -124,7 +124,7 @@ const WallType = sequelize.define('wall_type', {
 WallType.hasOne(Wall)
 Wall.belongsTo(WallType)
 
-Site.hasMany(WallType)
+Site.hasMany(WallType, { onDelete: 'CASCADE' })
 WallType.belongsTo(Site)
 
 module.exports = {

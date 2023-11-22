@@ -2,25 +2,30 @@ const {Floor} = require("../models/models");
 
 class FloorRepository {
     async create(name, number, scale, buildingId, fileName) {
-        return await Floor.create({
+        const floor = await Floor.create({
             name: name, number: number, image: fileName, scale: scale, buildingId: buildingId
         })
+        return floor.get()
     }
 
     async get(floorId) {
-        return await Floor.findOne({where: {id: floorId}})
+        const floor = await Floor.findOne({where: {id: floorId}})
+        return floor.get()
     }
 
     async getAll(buildingId) {
-        return await Floor.findAndCountAll({where: {buildingId: buildingId}})
+        const floors = await Floor.findAll({where: {buildingId: buildingId}})
+        return floors.map((row) => row.get())
     }
 
     async update(name, number, scale, floorId) {
-        return await Floor.update({name: name, number: number, scale: scale}, {where: {id: floorId}})
+        const floor = await Floor.update({name: name, number: number, scale: scale}, {where: {id: floorId}})
+        return floor.get()
     }
 
     async updateImage(floorId, fileName) {
-        return await Floor.update({image: fileName}, {where: {id: floorId}})
+        const floor = await Floor.update({image: fileName}, {where: {id: floorId}})
+        return floor.get()
     }
 
     async delete(floorId) {

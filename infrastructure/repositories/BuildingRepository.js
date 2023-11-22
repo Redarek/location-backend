@@ -2,21 +2,25 @@ const {Building} = require("../models/models");
 
 class BuildingRepository {
     async create(name, description, country, city, address, siteId) {
-        return await Building.create({
+        const building = await Building.create({
             name: name, description: description, country: country, city: city, address: address, siteId: siteId
         })
+        return building.get()
     }
 
     async get(buildingId) {
-        return await Building.findOne({where: {id: buildingId}})
+        const building = await Building.findOne({where: {id: buildingId}})
+        return building.get()
     }
 
     async getAll(siteId) {
-        return await Building.findAndCountAll({where: {siteId: siteId}})
+        const buildings = await Building.findAll({where: {siteId: siteId}})
+        return buildings.map((row) => row.get())
     }
 
     async update(name, description, country, city, address, buildingId) {
-        return await Building.update({name: name, description: description, country: country, city: city, address: address}, {where: {id: buildingId}})
+        const building = await Building.update({name: name, description: description, country: country, city: city, address: address}, {where: {id: buildingId}})
+        return building.get()
     }
 
     async delete(buildingId) {

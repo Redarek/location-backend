@@ -2,21 +2,25 @@ const {Site} = require("../models/models");
 
 class SiteRepository {
     async create(name, description, userId) {
-        return await Site.create({
+        const site = await Site.create({
             name: name, description: description, userId: userId
         })
+        return site.get()
     }
 
     async get(siteId) {
-        return await Site.findOne({where: {id: siteId}})
+        const site = await Site.findOne({where: {id: siteId}})
+        return site.get()
     }
 
     async getAll(userId) {
-        return await Site.findAndCountAll({where: {userId: userId}})
+        const sites = await Site.findAll({where: {userId: userId}})
+        return sites.map((row) => row.get())
     }
 
     async update(name, description, siteId) {
-        return await Site.update({name: name, description: description}, {where: {id: siteId}})
+        const site = await Site.update({name: name, description: description}, {where: {id: siteId}})
+        return site.get()
     }
 
     async delete(siteId) {

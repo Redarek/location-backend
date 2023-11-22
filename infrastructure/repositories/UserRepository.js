@@ -8,7 +8,8 @@ class UserRepository {
         if (candidate) {
             throw ApiError.badRequest(`Пользователь с username ${username} уже существует`);
         }
-        return await User.create({username: username, password: password})
+        const user = await User.create({username: username, password: password})
+        return user.get()
     }
 
     async getUserRoles(userId) {
@@ -22,11 +23,13 @@ class UserRepository {
     }
 
     async getUserByUsername(username){
-        return await User.findOne({where: {username: username}})
+        const user = await User.findOne({where: {username: username}})
+        return user.get()
     }
 
     async updateUser(id, data) {
-        return await User.update(data, {where: {id: id}})
+        const user = await User.update(data, {where: {id: id}})
+        return user.get()
     }
 
 }
