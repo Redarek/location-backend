@@ -24,7 +24,11 @@ class UserRepository {
 
     async getUserByUsername(username){
         const user = await User.findOne({where: {username: username}})
-        return user.get()
+        if (user) {
+            return user.get()
+        }
+        return false
+
     }
 
     async updateUser(id, data) {

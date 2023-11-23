@@ -42,7 +42,7 @@ Site.belongsTo(User)
 
 const Building = sequelize.define('building', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING, unique: true},
+    name: {type: DataTypes.STRING},
     description: {type: DataTypes.STRING},
     country: {type: DataTypes.STRING},
     city: {type: DataTypes.STRING},
