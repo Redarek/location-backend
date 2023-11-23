@@ -19,8 +19,13 @@ class BuildingRepository {
     }
 
     async update(name, description, country, city, address, buildingId) {
-        const building = await Building.update({name: name, description: description, country: country, city: city, address: address}, {where: {id: buildingId}})
-        return building.get()
+        return await Building.update({
+            name: name,
+            description: description,
+            country: country,
+            city: city,
+            address: address
+        }, {where: {id: buildingId}})
     }
 
     async delete(buildingId) {

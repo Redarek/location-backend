@@ -17,13 +17,11 @@ class WallRepository {
     }
 
     async update(x1, y1, x2, y2, typeId, wallId) {
-        const wall = await Wall.update({x1: x1, y1: y1, x2: x2, y2: y2, typeId: typeId}, {where: {id: wallId}})
-        return wall.get()
+        return await Wall.update({x1: x1, y1: y1, x2: x2, y2: y2, typeId: typeId}, {where: {id: wallId}})
     }
 
     async updateCoords(x1, y1, x2, y2, wallId) {
-        const wall = await Wall.update({x1: x1, y1: y1, x2: x2, y2: y2}, {where: {id: wallId}})
-        return wall.get()
+        return await Wall.update({x1: x1, y1: y1, x2: x2, y2: y2}, {where: {id: wallId}})
     }
 
     async delete(wallId) {

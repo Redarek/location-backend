@@ -5,6 +5,7 @@ class SiteRepository {
         const site = await Site.create({
             name: name, description: description, userId: userId
         })
+        console.log(site)
         return site.get()
     }
 
@@ -19,8 +20,7 @@ class SiteRepository {
     }
 
     async update(name, description, siteId) {
-        const site = await Site.update({name: name, description: description}, {where: {id: siteId}})
-        return site.get()
+        return await Site.update({name: name, description: description}, {where: {id: siteId}})
     }
 
     async delete(siteId) {

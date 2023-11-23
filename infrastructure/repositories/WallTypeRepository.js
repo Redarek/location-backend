@@ -25,7 +25,7 @@ class WallTypeRepository {
     }
 
     async update(name, color, attentuation1, attentuation2, attentuation3, thickness, wallTypeId) {
-        const wallType = await WallType.update({
+        return await WallType.update({
             name: name,
             color: color,
             attentuation1: attentuation1,
@@ -33,7 +33,6 @@ class WallTypeRepository {
             attentuation3: attentuation3,
             thickness: thickness
         }, {where: {id: wallTypeId}})
-        return wallType.get()
     }
 
     async delete(wallTypeId) {

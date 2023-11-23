@@ -19,13 +19,11 @@ class FloorRepository {
     }
 
     async update(name, number, scale, floorId) {
-        const floor = await Floor.update({name: name, number: number, scale: scale}, {where: {id: floorId}})
-        return floor.get()
+        return await Floor.update({name: name, number: number, scale: scale}, {where: {id: floorId}})
     }
 
     async updateImage(floorId, fileName) {
-        const floor = await Floor.update({image: fileName}, {where: {id: floorId}})
-        return floor.get()
+        return await Floor.update({image: fileName}, {where: {id: floorId}})
     }
 
     async delete(floorId) {

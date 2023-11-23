@@ -29,7 +29,7 @@ class UserRepository {
 
     async updateUser(id, data) {
         const user = await User.update(data, {where: {id: id}})
-        return user.get()
+        return user
     }
 
 }
