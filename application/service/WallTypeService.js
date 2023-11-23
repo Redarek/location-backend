@@ -1,8 +1,8 @@
 const WallTypeRepository = require('../../infrastructure/repositories/WallTypeRepository')
 
 class WallTypeService {
-    async create(name, color, attentuation1, attentuation2, attentuation3, thickness, siteId) {
-        return await WallTypeRepository.create(name, color, attentuation1, attentuation2, attentuation3, thickness, siteId)
+    async create(name, color, attenuation1, attenuation2, attenuation3, thickness, siteId) {
+        return await WallTypeRepository.create(name, color, attenuation1, attenuation2, attenuation3, thickness, siteId)
     }
 
     async get(wallTypeId) {
@@ -13,8 +13,8 @@ class WallTypeService {
         return await WallTypeRepository.getAll(siteId)
     }
 
-    async update(name, color, attentuation1, attentuation2, attentuation3, thickness, wallTypeId) {
-        return await WallTypeRepository.update(name, color, attentuation1, attentuation2, attentuation3, thickness, wallTypeId)
+    async update(name, color, attenuation1, attenuation2, attenuation3, thickness, wallTypeId) {
+        return await WallTypeRepository.update(name, color, attenuation1, attenuation2, attenuation3, thickness, wallTypeId)
     }
 
     async delete(wallTypeId) {

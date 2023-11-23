@@ -5,7 +5,6 @@ class SiteRepository {
         const site = await Site.create({
             name: name, description: description, userId: userId
         })
-        console.log(site)
         return site.get()
     }
 

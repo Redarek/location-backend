@@ -7,9 +7,9 @@ module.exports = class WallDto {
     floorId
     wallTypeId
     color
-    attentuation1
-    attentuation2
-    attentuation3
+    attenuation1
+    attenuation2
+    attenuation3
     thickness
     createdAt
     updatedAt
@@ -24,9 +24,9 @@ module.exports = class WallDto {
         this.floorId = wall.floorId
         this.wallTypeId = wall.wallTypeId
         this.color = wallType.color
-        this.attentuation1 = wallType.attentuation1
-        this.attentuation2 = wallType.attentuation2
-        this.attentuation3 = wallType.attentuation3
+        this.attenuation1 = wallType.attenuation1
+        this.attenuation2 = wallType.attenuation2
+        this.attenuation3 = wallType.attenuation3
         this.thickness = wallType.thickness
         this.createdAt = wall.createdAt
         this.updatedAt = wall.updatedAt

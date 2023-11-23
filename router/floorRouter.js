@@ -8,6 +8,6 @@ router.get('/', authMiddleware, FloorController.get);
 router.get('/all', authMiddleware, FloorController.getAll);
 router.put('/', authMiddleware, FloorController.update);
 router.delete('/', authMiddleware, FloorController.delete);
-router.patch('/', authMiddleware, FloorController.updateImage)
+router.patch('/', authMiddleware, FloorController.patch)
 
 module.exports = router

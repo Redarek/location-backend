@@ -58,7 +58,7 @@ const Floor = sequelize.define('floor', {
     name: {type: DataTypes.STRING},
     number: {type: DataTypes.INTEGER},
     image: {type: DataTypes.STRING},
-    scale: {type: DataTypes.STRING},
+    scale: {type: DataTypes.FLOAT},
     deletedAt: {type: DataTypes.DATE}
 })
 
@@ -114,9 +114,9 @@ const WallType = sequelize.define('wall_type', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING},
     color: {type: DataTypes.STRING},
-    attentuation1: {type: DataTypes.FLOAT},
-    attentuation2: {type: DataTypes.FLOAT},
-    attentuation3: {type: DataTypes.FLOAT},
+    attenuation1: {type: DataTypes.FLOAT},
+    attenuation2: {type: DataTypes.FLOAT},
+    attenuation3: {type: DataTypes.FLOAT},
     thickness: {type: DataTypes.FLOAT},
     deletedAt: {type: DataTypes.DATE}
 })

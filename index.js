@@ -6,7 +6,7 @@ const session = require('express-session')
 const cookieParser = require('cookie-parser');
 const errorMiddleware = require('./application/middlewares/errorMiddleware');
 const fileUpload = require('express-fileupload')
-
+const path = require('path')
 const router = require('./router/index');
 
 const CLIENT_URL = process.env.NODE_ENV === "production" ? process.env.PROD_CLIENT_URL : process.env.DEV_CLIENT_URL
@@ -22,6 +22,8 @@ const app = express();
 
 app.use(session(sessionConfig));
 app.use(express.json());
+app.use(express.static(path.resolve(__dirname, 'static')));
+
 app.use(fileUpload({limits: {fileSize: 50 * 1024 * 1024}}))
 app.use(cookieParser());
 app.use(cors({

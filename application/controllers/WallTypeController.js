@@ -3,8 +3,8 @@ const WallTypeService = require('../service/WallTypeService')
 class WallTypeController {
     async create(req, res, next) {
         try {
-            const {name, color, attentuation1, attentuation2, attentuation3, thickness, siteId} = req.body
-            const wallType = await WallTypeService.create(name, color, attentuation1, attentuation2, attentuation3, thickness, siteId)
+            const {name, color, attenuation1, attenuation2, attenuation3, thickness, siteId} = req.body
+            const wallType = await WallTypeService.create(name, color, attenuation1, attenuation2, attenuation3, thickness, siteId)
             return res.json(wallType)
         } catch (error) {
             next(error)
@@ -33,8 +33,8 @@ class WallTypeController {
 
     async update(req, res, next) {
         try {
-            const {name, color, attentuation1, attentuation2, attentuation3, thickness, id} = req.body;
-            const wallType = await WallTypeService.update(name, color, attentuation1, attentuation2, attentuation3, thickness, id)
+            const {name, color, attenuation1, attenuation2, attenuation3, thickness, id} = req.body;
+            const wallType = await WallTypeService.update(name, color, attenuation1, attenuation2, attenuation3, thickness, id)
             return res.json(wallType)
         } catch (error) {
             next(error)

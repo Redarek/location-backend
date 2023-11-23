@@ -6,10 +6,7 @@ const ApiError = require('../exceptions/ApiError');
 
 class FloorService {
     async create(name, number, scale, buildingId, img) {
-        const extension = img.name.split('.').pop()
-        const fileName = `${uuid.v4()}.${extension}`
-        await img.mv(path.resolve(__dirname, '..', 'static', fileName))
-        return await FloorRepository.create(name, number, scale, buildingId, fileName)
+        return await FloorRepository.create(name, number, scale, buildingId)
     }
 
     async get(floorId) {
@@ -24,12 +21,16 @@ class FloorService {
         return await FloorRepository.update(name, number, scale, floorId)
     }
 
-    async updateImage(floorId, img) {
-        await this.deleteImage(floorId)
-        const extension = img.name.split('.').pop()
-        const fileName = `${uuid.v4()}.${extension}`
-        await img.mv(path.resolve(__dirname, '..', 'static', fileName))
-        return await FloorRepository.updateImage(floorId, fileName)
+    async patch(floorId, name=undefined, number=undefined, image=undefined) {
+        if (image !== undefined) {
+            await this.deleteImage(floorId)
+            const extension = image.name.split('.').pop()
+            const filename = `${uuid.v4()}.${extension}`
+            await image.mv(path.resolve(__dirname, '../..', 'static', filename))
+            return await FloorRepository.patch(floorId, name, number, filename)
+        } else {
+            return await FloorRepository.patch(floorId, name, number)
+        }
     }
 
     async delete(floorId) {
@@ -39,14 +40,13 @@ class FloorService {
 
     async deleteImage(floorId) {
         const floor = await FloorRepository.get(floorId)
-        if (floor) {
-            const fileName = floor.image;
-            const filePath = path.resolve(__dirname, '..', 'static', fileName)
+        if (floor.image) {
+            const filePath = path.resolve(__dirname, '../..', 'static', floor.image)
             // Check if the file exists
             if (fs.existsSync(filePath)) {
                 fs.unlinkSync(filePath)
                 console.log('File deleted successfully')
-                return await FloorRepository.updateImage(floorId, null)
+                return await FloorRepository.patch(floorId, undefined, undefined, null)
             } else {
                 console.log('File not found')
                 return ApiError.badRequest('File not found')

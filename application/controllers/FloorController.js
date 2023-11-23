@@ -3,11 +3,7 @@ class FloorController {
     async create(req, res, next) {
         try {
             const {name, number, scale, buildingId} = req.body
-            if (!req.files || Object.keys(req.files).length === 0) {
-                return res.status(400).send('No files were uploaded.');
-            }
-            const {img} = req.files
-            const floor = await FloorService.create(name, number, scale, buildingId, img)
+            const floor = await FloorService.create(name, number, scale, buildingId)
             return res.json(floor);
         } catch (error) {
             next(error);
@@ -44,12 +40,17 @@ class FloorController {
         }
     }
 
-    async updateImage(req, res, next)    {
+    async patch(req, res, next)    {
         try {
-            const {id} = req.body
-            const {img} = req.files
-            const floor = await FloorService.updateImage(id, img)
-            return res.json(floor);
+            const {id, name, number} = req.body
+            if (!req.files || Object.keys(req.files).length === 0) {
+                const floor = await FloorService.patch(id, name, number)
+                return res.json(floor);
+            } else {
+                const {image} = req.files
+                const floor = await FloorService.patch(id, name, number, image)
+                return res.json(floor);
+            }
         } catch (error) {
             next(error);
         }
