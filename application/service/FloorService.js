@@ -5,7 +5,7 @@ const fs = require("fs");
 const ApiError = require('../exceptions/ApiError');
 
 class FloorService {
-    async create(name, number, scale, buildingId, img) {
+    async create(name, number, scale, buildingId) {
         return await FloorRepository.create(name, number, scale, buildingId)
     }
 
@@ -21,15 +21,15 @@ class FloorService {
         return await FloorRepository.update(name, number, scale, floorId)
     }
 
-    async patch(floorId, name=undefined, number=undefined, image=undefined) {
+    async patch(floorId, name=undefined, number=undefined, scale=undefined,  image=undefined) {
         if (image !== undefined) {
             await this.deleteImage(floorId)
             const extension = image.name.split('.').pop()
             const filename = `${uuid.v4()}.${extension}`
             await image.mv(path.resolve(__dirname, '../..', 'static', filename))
-            return await FloorRepository.patch(floorId, name, number, filename)
+            return await FloorRepository.patch(floorId, name, number, scale, filename)
         } else {
-            return await FloorRepository.patch(floorId, name, number)
+            return await FloorRepository.patch(floorId, name, number, scale)
         }
     }
 

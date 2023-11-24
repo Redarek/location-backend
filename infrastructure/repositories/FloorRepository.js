@@ -22,10 +22,11 @@ class FloorRepository {
         return await Floor.update({name: name, number: number, scale: scale}, {where: {id: floorId}})
     }
 
-    async patch(floorId, name, number, filename=undefined) {
+    async patch(floorId, name, number, scale, filename=undefined) {
         const floor = await Floor.findByPk(floorId)
         if (name !== undefined) floor.name = name
         if (number !== undefined) floor.number = number
+        if (scale !== undefined) floor.scale = scale
         if (filename !== undefined) floor.image = filename
         await floor.save()
         return floor.get()

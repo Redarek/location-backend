@@ -42,13 +42,13 @@ class FloorController {
 
     async patch(req, res, next)    {
         try {
-            const {id, name, number} = req.body
+            const {id, name, number, scale} = req.body
             if (!req.files || Object.keys(req.files).length === 0) {
-                const floor = await FloorService.patch(id, name, number)
+                const floor = await FloorService.patch(id, name, number, scale)
                 return res.json(floor);
             } else {
                 const {image} = req.files
-                const floor = await FloorService.patch(id, name, number, image)
+                const floor = await FloorService.patch(id, name, number, scale, image)
                 return res.json(floor);
             }
         } catch (error) {
