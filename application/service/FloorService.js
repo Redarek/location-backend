@@ -46,7 +46,7 @@ class FloorService {
             if (fs.existsSync(filePath)) {
                 fs.unlinkSync(filePath)
                 console.log('File deleted successfully')
-                return await FloorRepository.patch(floorId, undefined, undefined, null)
+                return await FloorRepository.patch(floorId, undefined, undefined, undefined, null)
             } else {
                 console.log('File not found')
                 return ApiError.badRequest('File not found')
