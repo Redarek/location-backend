@@ -16,8 +16,8 @@ class WallRepository {
         return walls.map((row) => row.get())
     }
 
-    async update(x1, y1, x2, y2, typeId, wallId) {
-        return await Wall.update({x1: x1, y1: y1, x2: x2, y2: y2, typeId: typeId}, {where: {id: wallId}})
+    async update(x1, y1, x2, y2, wallTypeId, wallId) {
+        return await Wall.update({x1: x1, y1: y1, x2: x2, y2: y2, typeId: wallTypeId}, {where: {id: wallId}})
     }
 
     async updateCoords(x1, y1, x2, y2, wallId) {

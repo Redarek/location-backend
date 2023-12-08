@@ -13,8 +13,8 @@ class WallService {
         return await WallRepository.getAll(floorId)
     }
 
-    async update(x1, y1, x2, y2, typeId, wallId) {
-        return await WallRepository.update(x1, y1, x2, y2, typeId, wallId)
+    async update(x1, y1, x2, y2, wallTypeId, wallId) {
+        return await WallRepository.update(x1, y1, x2, y2, wallTypeId, wallId)
     }
 
     async updateCoords(x1, y1, x2, y2, wallId) {
