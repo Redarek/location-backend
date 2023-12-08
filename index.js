@@ -8,6 +8,7 @@ const errorMiddleware = require('./application/middlewares/errorMiddleware');
 const fileUpload = require('express-fileupload')
 const path = require('path')
 const router = require('./router/index');
+const initSocketManager = require('./socket/socketManager');
 
 const CLIENT_URL = process.env.NODE_ENV === "production" ? process.env.PROD_CLIENT_URL : process.env.DEV_CLIENT_URL
 
@@ -36,9 +37,10 @@ const start = async () => {
     try {
         await sequelize.authenticate()
         await sequelize.sync()
-        app.listen(process.env.PORT || 3500, () => {
+        const server = app.listen(process.env.PORT || 3500, () => {
             console.log(`Server started on port ${process.env.PORT}`);
         });
+        initSocketManager(server);
     } catch (error) {
         console.log('Something went wrong. Please try again', error.message);
         process.exit(1);
