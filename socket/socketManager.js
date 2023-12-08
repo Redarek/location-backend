@@ -35,7 +35,6 @@ module.exports = (server) => {
                 console.log(`createWall in ${room}\nData:: ${data}`)
                 const {x1, y1, x2, y2, wallTypeId} = data
                 const wall = await WallService.create(x1, y1, x2, y2, wallTypeId, floorId); // Обработка и обновление в БД
-                console.log(wall)
                 io.of('/floor').to(room).emit('createWall', wall); // Отправка всем в комнате
             });
             // обновление координат стены
