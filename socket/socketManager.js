@@ -1,9 +1,12 @@
 const socketIo = require('socket.io');
 const FloorService = require('../application/service/FloorService')
 const WallService = require('../application/service/WallService')
+const CLIENT_URL = require('/index')
 
 module.exports = (server) => {
-    const io = socketIo(server);
+    const io = socketIo(server, {
+        cors: {credentials: true, origin: CLIENT_URL}
+    });
     // Шаг 1: Подключиться к ws://localhost:3500/floor
     // присоединение к пространству floor
     io.of('/floor').on('connection', (socket) => {

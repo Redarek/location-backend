@@ -10,7 +10,7 @@ const path = require('path')
 const router = require('./router/index');
 const initSocketManager = require('./socket/socketManager');
 
-const CLIENT_URL = process.env.NODE_ENV === "production" ? process.env.PROD_CLIENT_URL : process.env.DEV_CLIENT_URL
+module.exports = CLIENT_URL = process.env.NODE_ENV === "production" ? process.env.PROD_CLIENT_URL : process.env.DEV_CLIENT_URL
 
 const sessionConfig = {
     secret: process.env.SESSION_SECRET || 'Super Secret rushools', resave: true, saveUninitialized: false, cookie: {
