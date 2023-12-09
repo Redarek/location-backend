@@ -10,11 +10,12 @@ module.exports = (server) => {
     // Шаг 1: Подключиться к ws://localhost:3500/floor
     // присоединение к пространству floor
     io.of('/floor').on('connection', (socket) => {
+        let room
         console.log('Клиент подключился к пространству /floor');
         // Шаг 2: Отправить на ws://localhost:3500/floor - событие=joinFloor, arg1=floorId
         // присоединение к комнате в пространстве floor
         socket.on('joinFloor', (floorId) => {
-            const room = `floor-${floorId}`;
+            room = `floor-${floorId}`;
             socket.join(room);
             console.log(`Клиент присоединился к комнате \"floor-${floorId}\"`);
 
@@ -55,7 +56,8 @@ module.exports = (server) => {
                 io.of('/floor').to(room).emit('deleteWall', data); // Отправка всем в комнате
             });
 
-            // Тип 2: запросы, не требующие изменения в БД, просто пересылка между клиентами
+            // Тип 2: запросы, не требующие изменения в БД
+            // Пересылка всем в комнате
             socket.on('forward', (data) => {
                 console.log(`forward in ${room}\nData:: ${data}`)
                 socket.to(room).emit('forward', data); // Пересылка всем, кроме отправителя
@@ -63,7 +65,8 @@ module.exports = (server) => {
         });
 
         socket.on('disconnect', () => {
-            console.log('Клиент отключился');
+            console.log(`disconnect in ${room}\nSocket ID:: ${socket.id}`)
+            socket.to(room).emit('leaveRoom', socket.id); // Пересылка уведомления о дисконнекте всем, кроме отправителя
         });
     });
 };
