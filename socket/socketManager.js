@@ -1,7 +1,7 @@
 const socketIo = require('socket.io');
 const FloorService = require('../application/service/FloorService')
 const WallService = require('../application/service/WallService')
-const CLIENT_URL = require('/index')
+const CLIENT_URL = require('../index')
 
 module.exports = (server) => {
     const io = socketIo(server, {
