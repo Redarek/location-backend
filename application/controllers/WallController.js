@@ -33,8 +33,8 @@ class WallController {
 
     async update(req, res, next) {
         try {
-            const {x1, y1, x2, y2, wallTypeId, wallId} = req.body
-            const wall = await WallService.update(x1, y1, x2, y2, wallTypeId, wallId)
+            const {x1, y1, x2, y2, wallTypeId, id} = req.body
+            const wall = await WallService.update(x1, y1, x2, y2, wallTypeId, id)
             return res.json(wall)
         } catch (error) {
             next(error)
@@ -43,8 +43,8 @@ class WallController {
 
     async updateCoords(req, res, next) {
         try {
-            const {x1, y1, x2, y2, wallId} = req.body
-            const wall = await WallService.updateCoords(x1, y1, x2, y2, wallId)
+            const {x1, y1, x2, y2, id} = req.body
+            const wall = await WallService.updateCoords(x1, y1, x2, y2, id)
             return res.json(wall)
         } catch (error) {
             next(error)
