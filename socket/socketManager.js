@@ -1,7 +1,7 @@
 const socketIo = require('socket.io');
 const FloorService = require('../application/service/FloorService')
 const WallService = require('../application/service/WallService')
-const CLIENT_URL = require('/index')
+const CLIENT_URL = require('../index')
 
 module.exports = (server) => {
     const io = socketIo(server, {
@@ -34,35 +34,25 @@ module.exports = (server) => {
                 await FloorService.deleteImage(floorId); // Обработка и обновление в БД
                 io.of('/floor').to(room).emit('deleteFloorImage'); // Отправка всем в комнате
             });
-
-            // создание стен
-            socket.on('createWalls', async (data) => {
+            // создание стены
+            socket.on('createWall', async (data) => {
                 console.log(`createWall in ${room}\nData:: ${data}`)
-                for (let i = 0; i < data.length; i++) {
-                    const {x1, y1, x2, y2, wallTypeId} = data[i]
-                    const wall = await WallService.create(x1, y1, x2, y2, wallTypeId, floorId); // Обработка и обновление в БД
-                    data[i].id = wall.id
-                }
-                io.of('/floor').to(room).emit('createWalls', data); // Отправка всем в комнате
+                const {x1, y1, x2, y2, wallTypeId} = data
+                const wall = await WallService.create(x1, y1, x2, y2, wallTypeId, floorId); // Обработка и обновление в БД
+                io.of('/floor').to(room).emit('createWall', {...data, ...wall}); // Отправка всем в комнате
             });
-
-            // обновление координат стен
-            socket.on('updateWallsCoords', async (data) => {
+            // обновление координат стены
+            socket.on('updateWallCoords', async (data) => {
                 console.log(`updateWallCoords in ${room}\nData:: ${data}`)
-                for (let i = 0; i < data.length; i++) {
-                    const {x1, y1, x2, y2, id} = data[i]
-                    await WallService.updateCoords(x1, y1, x2, y2, id); // Обработка и обновление в БД
-                }
-                io.of('/floor').to(room).emit('updateWallsCoords', data); // Отправка всем в комнате
+                const {x1, y1, x2, y2, wallId} = data
+                await WallService.updateCoords(x1, y1, x2, y2, wallId); // Обработка и обновление в БД
+                io.of('/floor').to(room).emit('updateWallCoords', data); // Отправка всем в комнате
             });
-
-            // удаление стен
+            // удаление стены
             socket.on('deleteWall', async (data) => {
                 console.log(`deleteWall in ${room}\nData:: ${data}`)
-                for (let i = 0; i < data.length; i++) {
-                    const {id} = data[i]
-                    await WallService.delete(id); // Обработка и обновление в БД
-                }
+                const {wallId} = data
+                await WallService.delete(wallId); // Обработка и обновление в БД
                 io.of('/floor').to(room).emit('deleteWall', data); // Отправка всем в комнате
             });
 
@@ -72,8 +62,56 @@ module.exports = (server) => {
                 console.log(`forward in ${room}\nData:: ${data}`)
                 socket.to(room).emit('forward', data); // Пересылка всем, кроме отправителя
             });
-        });
 
+            // создание
+            socket.on('create', async (data) => {
+                console.log(`create items in ${room}\nData:: ${data}`)
+                for (let i = 0; i < data.items.length; i++) {
+                    switch (data.items[i].objectType) {
+                        case 'wall':
+                            const {x1, y1, x2, y2, wallTypeId} = data.items[i]
+                            const wall = await WallService.create(x1, y1, x2, y2, wallTypeId, floorId); // Обработка и обновление в БД
+                            data.items[i].id = wall.id
+                            break
+                        default:
+                            break
+                    }
+                }
+                io.of('/floor').to(room).emit('create', data); // Отправка всем в комнате
+            })
+
+            // обновление
+            socket.on('update', async (data) => {
+                console.log(`update items in ${room}\nData:: ${data}`)
+                for (let i = 0; i < data.items.length; i++) {
+                    switch (data.items[i].objectType) {
+                        case 'wall':
+                            const {x1, y1, x2, y2, id} = data.items[i]
+                            await WallService.updateCoords(x1, y1, x2, y2, id); // Обработка и обновление в БД
+                            break
+                        default:
+                            break
+                    }
+                }
+                io.of('/floor').to(room).emit('update', data); // Отправка всем в комнате
+            })
+
+            // удаление
+            socket.on('delete', async (data) => {
+                console.log(`delete items in ${room}\nData:: ${data}`)
+                for (let i = 0; i < data.items.length; i++) {
+                    switch (data.items[i].objectType) {
+                        case 'wall':
+                            const {id} = data.items[i]
+                            await WallService.delete(id); // Обработка и обновление в БД
+                            break
+                        default:
+                            break
+                    }
+                }
+                io.of('/floor').to(room).emit('delete', data); // Отправка всем в комнате
+            })
+        });
         socket.on('disconnect', () => {
             console.log(`disconnect in ${room}\nSocket ID:: ${socket.id}`)
             socket.to(room).emit('leaveRoom', socket.id); // Пересылка уведомления о дисконнекте всем, кроме отправителя
