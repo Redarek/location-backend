@@ -68,7 +68,7 @@ module.exports = (server) => {
                 console.log(`create items in ${room}\nData:: ${data}`)
                 for (let i = 0; i < data.items.length; i++) {
                     switch (data.items[i].objectType) {
-                        case 'wall':
+                        case 'WALL':
                             const {x1, y1, x2, y2, wallTypeId} = data.items[i]
                             const wall = await WallService.create(x1, y1, x2, y2, wallTypeId, floorId); // Обработка и обновление в БД
                             data.items[i].id = wall.id
@@ -84,9 +84,10 @@ module.exports = (server) => {
             socket.on('update', async (data) => {
                 console.log(`update items in ${room}\nData:: ${data}`)
                 for (let i = 0; i < data.items.length; i++) {
-                    switch (data.items[i].objectType) {
-                        case 'wall':
-                            const {x1, y1, x2, y2, id} = data.items[i]
+                    switch (data.items[i].changes.objectType) {
+                        case 'WALL':
+                            const {id} = data.items[i];
+                            const {x1, y1, x2, y2} = data.items[i].changes
                             await WallService.updateCoords(x1, y1, x2, y2, id); // Обработка и обновление в БД
                             break
                         default:
@@ -101,7 +102,7 @@ module.exports = (server) => {
                 console.log(`delete items in ${room}\nData:: ${data}`)
                 for (let i = 0; i < data.items.length; i++) {
                     switch (data.items[i].objectType) {
-                        case 'wall':
+                        case 'WALL':
                             const {id} = data.items[i]
                             await WallService.delete(id); // Обработка и обновление в БД
                             break
